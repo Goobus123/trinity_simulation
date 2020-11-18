@@ -25,6 +25,7 @@ delta_max = 0.000000286
     
 h = 0.001
 rr = 0.8
+print_ind = False
 
 # Custom Functions
 
@@ -47,6 +48,11 @@ def add_or_assign(name, dictionary, amount):
         dictionary[name] += amount
     else:
         dictionary[name] = amount
+        
+def arb_profit(from_token, to_token):
+    eqm = (from_token.asset() * from_token.price + to_token.asset() * to_token.price) / (from_token.liab() * from_token.price + to_token.liab() * to_token.price)
+    profit = -(from_token.liab() * from_token.price * (f(eqm) - f(from_token.cov_ratio())) + to_token.liab() * to_token.price * (f(eqm) - f(to_token.cov_ratio())))
+    return (eqm, profit)
         
 class users:
     
@@ -151,7 +157,8 @@ class pool:
         token.lp_tokens += x
         token.deposit += amount
         
-        print('Sucessfully deposited {0} {1} from Pool for {2}'.format(amount, token.name, user.name))
+        if print_ind == True:
+            print('Sucessfully deposited {0} {1} from Pool for {2}'.format(amount, token.name, user.name))
         
     def withdraw(self, user, token, perc):
         
@@ -184,7 +191,8 @@ class pool:
         # Reset temporary variable
         token.temp_withdraw = 0
         
-        print('Sucessfully withdrew {0} {1} from Pool for {2}. Fees charge: {3}.'.format(amount, token.name, user.name, w_fees))
+        if print_ind == True:
+            print('Sucessfully withdrew {0} {1} from Pool for {2}. Fees charge: {3}.'.format(amount, token.name, user.name, w_fees))
         
     def swap(self, user, from_token, to_token, from_amount):
 
@@ -230,4 +238,5 @@ class pool:
         to_token.hf_sys += hf - hf_lp
         to_token.sf += sf    
         
-        print('Sucessfully swapped {0} {1} from {2} {3} for {4}. Fees charged: {5}'.format(act_to_amount,to_token.name,from_amount,from_token.name, user.name, sf + hf))
+        if print_ind == True:
+            print('Sucessfully swapped {0} {1} from {2} {3} for {4}. Fees charged: {5}'.format(act_to_amount,to_token.name,from_amount,from_token.name, user.name, sf + hf))

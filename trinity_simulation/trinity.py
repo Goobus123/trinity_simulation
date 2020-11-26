@@ -86,6 +86,7 @@ class tokens:
         self.deposit = 0
         self.lp_tokens = 0
         self.price = 0
+        self.true_price = 0
         self.temp_withdraw = 0
         self.temp_swap = 0
         self.hf_sys = 0

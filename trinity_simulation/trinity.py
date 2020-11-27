@@ -127,7 +127,7 @@ class tokens:
     def withdraw_fees(self):
         r_old = self.cov_ratio()
         r_new = self.temp_cov_ratio()
-        return 0 if r_old == r_new else ((1-r_old)*f(r_new) - (1-r_new)*f(r_old))/(r_new - r_old)
+        return 0 if r_old == r_new else ((1-r_old)*f(r_new)-(1-r_new)*f(r_old))/(r_new - r_old)
     
     def price_slippage(self):
         r_old = self.cov_ratio()
@@ -170,7 +170,7 @@ class pool:
         token.temp_withdraw = amount
         
         # withdrawal fees
-        w_fees = amount * token.withdraw_fees()
+        w_fees = -amount * token.withdraw_fees()
         
         # cash transfer
         add_or_assign(token.name, user.wallet, amount - w_fees)
